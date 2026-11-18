@@ -1,0 +1,6 @@
+title: Artwork Gallery
+baseurl: "/2026-Artwork-Gallery"   # must match your repo name
+collections:
+  artworks:
+    output: true
+    permalink: /artworks/:name/
