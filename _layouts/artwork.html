@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ page.title }} | {{ site.title }}</title>
+  <link rel="stylesheet" href="{{ '/assets/style.css' | relative_url }}">
+</head>
+<body>
+  <p><a href="{{ '/' | relative_url }}">← All artworks</a></p>
+  <h1>{{ page.title }}</h1>
+  <!--<p class="artist">by {{ page.artist }}</p>-->
+
+  <iframe src="{{ page.sketch | relative_url }}" width="800" height="600"></iframe>
+
+  <div>{{ content }}</div>
+  <!--<p><a class="vote" href="{{ site.vote_url }}" target="_blank">Vote for this artwork</a></p>-->
+</body>
+</html>
