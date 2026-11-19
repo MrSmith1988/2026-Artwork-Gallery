@@ -2,7 +2,7 @@ import json, shutil, html
 from pathlib import Path
 
 SITE_TITLE = "2026 Artwork Gallery"
-TAGLINE = "Explore the artworks, then vote for your favourite!"
+TAGLINE = "Explore the artworks, then vote for your favourites!"
 VOTE_URL = "https://docs.google.com/forms/d/e/1FAIpQLScty1B1h56Q0ij4ZpwWIRyf7yWUtur0U_ki2bEeegkOISilow/viewform?usp=header"   # change this later
 SRC, OUT = Path("artworks"), Path("_site")
 
@@ -287,7 +287,7 @@ for i, art in enumerate(artworks):
   {pager}
   <div class="frame">{media(folder)}</div>
   <div class="desc">{desc}</div>
-  <a class="vote" href="{esc(VOTE_URL)}" target="_blank" rel="noopener">&#11088; Vote for this artwork</a>
+  <a class="vote" href="{esc(VOTE_URL)}" target="_blank" rel="noopener">&#11088; Cast your vote</a>
 </main>
 <footer>{esc(SITE_TITLE)}</footer>
 </body></html>"""
