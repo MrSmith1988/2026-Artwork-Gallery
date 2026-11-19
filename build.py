@@ -168,7 +168,7 @@ footer {
   align-items: center;
   flex-wrap: wrap;
   gap: 1rem;
-  margin-top: 2.5rem;
+  margin: 0 0 1.75rem;
 }
 .pg {
   display: flex;
@@ -285,10 +285,10 @@ document.addEventListener("keydown", function (e) {{
   {byline}
 </header>
 <main>
+  {pager}
   <div class="frame">{media(folder)}</div>
   <div class="desc">{desc}</div>
   <a class="vote" href="{esc(VOTE_URL)}" target="_blank" rel="noopener">&#11088; Vote for this artwork</a>
-  {pager}
 </main>
 <footer>{esc(SITE_TITLE)}</footer>
 {keys}
