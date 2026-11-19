@@ -261,14 +261,9 @@ for i, art in enumerate(artworks):
     <span class="count">{i + 1} of {total}</span>
     <a class="pg" href="../{next_art['slug']}/" rel="next">Next &rarr;<small>{esc(next_art['title'])}</small></a>
   </nav>"""
-        keys = f"""<script>
-document.addEventListener("keydown", function (e) {{
-  if (e.key === "ArrowLeft") location.href = "../{prev_art['slug']}/";
-  if (e.key === "ArrowRight") location.href = "../{next_art['slug']}/";
-}});
-</script>"""
+      
     else:
-        pager = keys = ""
+        pager = ""
 
     dest = OUT / "artworks" / slug
     shutil.copytree(folder, dest)
@@ -291,7 +286,6 @@ document.addEventListener("keydown", function (e) {{
   <a class="vote" href="{esc(VOTE_URL)}" target="_blank" rel="noopener">&#11088; Vote for this artwork</a>
 </main>
 <footer>{esc(SITE_TITLE)}</footer>
-{keys}
 </body></html>"""
     (dest / "index.html").write_text(page, encoding="utf-8")
 
