@@ -3,7 +3,7 @@ from pathlib import Path
 
 SITE_TITLE = "2026 Artwork Gallery"
 TAGLINE = "Explore the artworks, then vote for your favourite!"
-VOTE_URL = "https://forms.gle/your-form-link"   # change this later
+VOTE_URL = "https://docs.google.com/forms/d/e/1FAIpQLScty1B1h56Q0ij4ZpwWIRyf7yWUtur0U_ki2bEeegkOISilow/viewform?usp=header"   # change this later
 SRC, OUT = Path("artworks"), Path("_site")
 
 CSS = """
