@@ -1,4 +1,4 @@
-import json, shutil, html
+#import json, shutil, html
 from pathlib import Path
 
 SITE_TITLE = "2026 Artwork Gallery"
