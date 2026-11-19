@@ -160,6 +160,47 @@ footer {
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; }
 }
+
+/* ---------- Previous / Next ---------- */
+.pager {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 2.5rem;
+}
+.pg {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 150px;
+  max-width: 220px;
+  padding: 0.7rem 1.2rem;
+  color: var(--navy);
+  font-weight: 700;
+  text-decoration: none;
+  background: #fff;
+  border-bottom: 4px solid var(--sky);
+  border-radius: 14px;
+  box-shadow: 0 4px 14px rgba(11, 37, 69, 0.15);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.pg small {
+  max-width: 100%;
+  margin-top: 0.2rem;
+  overflow: hidden;
+  font-weight: 400;
+  color: #4b6584;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.pg:hover, .pg:focus-visible {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(29, 78, 216, 0.3);
+  outline: none;
+}
+.count { font-weight: 600; color: var(--navy); }
 """
 
 def esc(s):
@@ -187,15 +228,47 @@ if OUT.exists():
 OUT.mkdir()
 (OUT / "style.css").write_text(CSS)
 
-cards = []
+# First pass: read every artwork's info so each page knows its neighbours
+artworks = []
 for folder in sorted(p for p in SRC.iterdir() if p.is_dir()):
     slug = folder.name
     info_file = folder / "info.json"
     info = json.loads(info_file.read_text(encoding="utf-8")) if info_file.exists() else {}
-    title = info.get("title", slug.replace("-", " ").title())
-    artist = info.get("artist", "")
-    desc = "".join(f"<p>{esc(p)}</p>" for p in info.get("description", "").split("\n\n") if p.strip())
-    byline = f'<p class="artist">by {esc(artist)}</p>' if artist else ""
+    artworks.append({
+        "folder": folder,
+        "slug": slug,
+        "title": info.get("title", slug.replace("-", " ").title()),
+        "artist": info.get("artist", ""),
+        "description": info.get("description", ""),
+    })
+
+total = len(artworks)
+cards = []
+
+# Second pass: build each artwork page
+for i, art in enumerate(artworks):
+    folder, slug, title = art["folder"], art["slug"], art["title"]
+    desc = "".join(f"<p>{esc(p)}</p>" for p in art["description"].split("\n\n") if p.strip())
+    byline = f'<p class="artist">by {esc(art["artist"])}</p>' if art["artist"] else ""
+
+    # Neighbours (wraps around: Previous on the first goes to the last, and vice versa)
+    prev_art = artworks[(i - 1) % total]
+    next_art = artworks[(i + 1) % total]
+
+    if total > 1:
+        pager = f"""<nav class="pager">
+    <a class="pg" href="../{prev_art['slug']}/" rel="prev">&larr; Previous<small>{esc(prev_art['title'])}</small></a>
+    <span class="count">{i + 1} of {total}</span>
+    <a class="pg" href="../{next_art['slug']}/" rel="next">Next &rarr;<small>{esc(next_art['title'])}</small></a>
+  </nav>"""
+        keys = f"""<script>
+document.addEventListener("keydown", function (e) {{
+  if (e.key === "ArrowLeft") location.href = "../{prev_art['slug']}/";
+  if (e.key === "ArrowRight") location.href = "../{next_art['slug']}/";
+}});
+</script>"""
+    else:
+        pager = keys = ""
 
     dest = OUT / "artworks" / slug
     shutil.copytree(folder, dest)
@@ -215,8 +288,10 @@ for folder in sorted(p for p in SRC.iterdir() if p.is_dir()):
   <div class="frame">{media(folder)}</div>
   <div class="desc">{desc}</div>
   <a class="vote" href="{esc(VOTE_URL)}" target="_blank" rel="noopener">&#11088; Vote for this artwork</a>
+  {pager}
 </main>
 <footer>{esc(SITE_TITLE)}</footer>
+{keys}
 </body></html>"""
     (dest / "index.html").write_text(page, encoding="utf-8")
 
@@ -241,4 +316,4 @@ index = f"""<!DOCTYPE html>
 <footer>{esc(SITE_TITLE)}</footer>
 </body></html>"""
 (OUT / "index.html").write_text(index, encoding="utf-8")
-print(f"Built {len(cards)} artworks")
+print(f"Built {total} artworks")
