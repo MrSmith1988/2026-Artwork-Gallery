@@ -168,7 +168,7 @@ footer {
   align-items: center;
   flex-wrap: wrap;
   gap: 1rem;
-  margin-top: 1.75rem;
+  margin: 0 0 1.75rem;
 }
 .pg {
   display: flex;
@@ -201,6 +201,10 @@ footer {
   outline: none;
 }
 .count { font-weight: 600; color: var(--navy); }
+
+/* Tighter spacing on artwork pages */
+header.site.compact { padding-bottom: 2.25rem; }
+main.art-page { padding-top: 1.25rem; }
 """
 
 def esc(s):
@@ -274,12 +278,12 @@ for i, art in enumerate(artworks):
 <title>{esc(title)} | {esc(SITE_TITLE)}</title>
 <link rel="stylesheet" href="../../style.css"></head>
 <body>
-<header class="site">
+<header class="site compact">
   <a class="back" href="../../">&larr; All artworks</a>
   <h1>{esc(title)}</h1>
   {byline}
 </header>
-<main>
+<main class="art-page">
   {pager}
   <div class="frame">{media(folder)}</div>
   <div class="desc">{desc}</div>
