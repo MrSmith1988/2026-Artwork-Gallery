@@ -534,8 +534,8 @@ function drawHud() {
   textAlign(LEFT, BOTTOM);
   const clock = new Date(simMs).toISOString().slice(11, 16) + ' UTC';
   const mode = timelapse ? 'time-lapse' : 'real time';
-  text('estimated by a model, not measured  |  ' + mode + '  |  ' + clock +
-       '      t: real time/time-lapse   h: hide text   s: save', 14, height - 12);
+  //text('estimated by a model, not measured  |  ' + mode + '  |  ' + clock +
+    //   '      t: real time/time-lapse   h: hide text   s: save', 14, height - 12);
 }
 
 function keyPressed() {
