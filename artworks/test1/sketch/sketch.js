@@ -1,7 +1,7 @@
 // worldmap.js - coarse, hand-drawn continent outlines as [longitude, latitude]
 // points. The sketch fills these with a grid of dots, so the shapes only need
 // to be roughly right. 'c' is the continent each outline belongs to. When
-// outlines overlap, the first one listed wins.
+// outlines overlap, the first one listed wins
 
 const LAND = [
   // ---------------- North America ----------------
